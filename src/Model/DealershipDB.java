@@ -66,4 +66,64 @@ public class DealershipDB
             return null;
         }
     }    
+    
+    public ArrayList<Sales> getSales()
+    {
+        String sql = "SELECT *"
+                + "FROM Sales ORDER BY Code ASC";        
+        ArrayList<Sales> sales = new ArrayList<>();
+        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery())
+        {
+            while(rs.next())
+            {
+                String code = rs.getString("code");
+                String transactionNum = rs.getString("transactionNum");
+                String employeeName = rs.getString("employeeName");
+                String saleDate = rs.getString("saleDate");
+                boolean lease = rs.getBoolean("lease");
+
+                Sales s = new Sales(code, transactionNum, employeeName, saleDate, lease);
+                sales.add(s);
+            }
+            return sales;
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e);
+            return null;
+        }
+    }
+    
+    public ArrayList<Employees> getEmployees()
+    {
+        String sql = "SELECT *"
+                + "FROM Sales ORDER BY employeeName ASC";        
+        ArrayList<Employees> employees = new ArrayList<>();
+        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery())
+        {
+            while(rs.next())
+            {
+                String employeeName = rs.getString("employeeName");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String department = rs.getString("derpartment");
+                double salary = rs.getDouble("salary");
+
+                Employees e = new Employees(employeeName, phone, email, department, salary);
+                employees.add(e);
+            }
+            return employees;
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e);
+            return null;
+        }
+    }
 }
