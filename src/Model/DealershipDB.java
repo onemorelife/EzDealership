@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package Model;
+import Controller.Sales;
+import Controller.Inventory;
+import Controller.Employees;
 import java.util.*;
 import java.sql.*;
 /**
