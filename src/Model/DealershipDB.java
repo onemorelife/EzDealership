@@ -42,7 +42,7 @@ public class DealershipDB
     //test method of reading inventory table
     public ArrayList<Inventory> getInventory()
     {
-        String sql = "SELECT Make, Model, Stock, Price, Code "
+        String sql = "SELECT *"
                    + "FROM Inventory ORDER BY Make ASC";        
         ArrayList<Inventory> inventory = new ArrayList<>();
         
