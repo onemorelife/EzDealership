@@ -5,10 +5,6 @@
  */
 package View;
 
-import Controller.Employees;
-import Controller.Inventory;
-import Controller.Sales;
-import java.util.ArrayList;
 
 /**
  *
