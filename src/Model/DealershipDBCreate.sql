@@ -8,11 +8,11 @@ DROP TABLE Employees;
 -- create Inventory table
 CREATE TABLE Inventory
 (
-    Make VARCHAR(20), 
-	Model VARCHAR(20), 
-	Stock INT,
-	Price DOUBLE,
-	Code VARCHAR(4)
+        make VARCHAR(20), 
+	model VARCHAR(20), 
+	stock INT,
+	price DOUBLE,
+	code VARCHAR(4)
 );
 
 -- insert data into Inventory table
@@ -31,11 +31,11 @@ SELECT * FROM Products;
 -- create Employees table 
 CREATE TABLE Employees 
 (
-	EmployeeName VARCHAR(24),
-	Phone VARCHAR(10),
-	Email VARCHAR(20),
-	Department VARCHAR(20),
-	Salary DOUBLE
+	employeeName VARCHAR(24),
+	phone VARCHAR(10),
+	email VARCHAR(20),
+	department VARCHAR(20),
+	salary DOUBLE
 )
 
 --insert data into Employees table 
@@ -54,11 +54,11 @@ SELECT * FROM Employees;
 -- create Employees table 
 CREATE TABLE Sales 
 (
-	Code VARCHAR(4),
-	Quantity INT,
-	EmployeeName VARCHAR(24),
-	SalesDate VARCHAR(8),
-	Lease BOOLEAN
+	code VARCHAR(4),
+	quantity INT,
+	employeeName VARCHAR(24),
+	salesDate VARCHAR(8),
+	lease BOOLEAN
 )
 
 --insert data into Sales table

@@ -39,11 +39,11 @@ public class DealershipDB
         }
     }
     
-    //test method of reading inventory table
+    //Methods for getting the records in a specific table 
     public ArrayList<Inventory> getInventory()
     {
         String sql = "SELECT *"
-                   + "FROM Inventory ORDER BY Make ASC";        
+                   + "FROM Inventory ORDER BY make ASC";        
         ArrayList<Inventory> inventory = new ArrayList<>();
         
         try (Connection connection = getConnection();
@@ -52,11 +52,11 @@ public class DealershipDB
         {
             while(rs.next())
             {
-                String make = rs.getString("Make");
-                String model = rs.getString("Model");
-                int stock = rs.getInt("Stock");
-                double price = rs.getDouble("Price");
-                String code = rs.getString("Code");
+                String make = rs.getString("make");
+                String model = rs.getString("model");
+                int stock = rs.getInt("stock");
+                double price = rs.getDouble("price");
+                String code = rs.getString("code");
 
                 Inventory i = new Inventory(make, model, stock, price, code);
                 inventory.add(i);
@@ -73,7 +73,7 @@ public class DealershipDB
     public ArrayList<Sales> getSales()
     {
         String sql = "SELECT *"
-                + "FROM Sales ORDER BY Code ASC";        
+                + "FROM Sales ORDER BY code ASC";        
         ArrayList<Sales> sales = new ArrayList<>();
         
         try (Connection connection = getConnection();
@@ -127,6 +127,213 @@ public class DealershipDB
         {
             System.err.println(e);
             return null;
+        }
+    }
+    
+    //Methods for adding a record to a specific table 
+    public boolean addInventory(Inventory i)
+    { //Takes an Inventory object and adds it to the table record
+      //TODO: Add another addInventory method to controller that takes user input
+      //from view and makes use of this function.
+        String sql =
+            "INSERT INTO Inventory (make, model, stock, price, code) " +
+            "VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {           
+            ps.setString(1, i.getMake());
+            ps.setString(2, i.getModel());
+            ps.setInt(3, i.getStock());
+            ps.setDouble(4, i.getPrice());
+            ps.setString(5, i.getCode());
+            ps.executeUpdate();
+            return true;
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e);
+            return false;
+        }
+    }
+    
+    public boolean addSales(Sales s)
+    { //Takes a Sales object and adds it to the table record
+        String sql =
+            "INSERT INTO Sales (code, transactionNum, employeeName, saleDate, lease) " +
+            "VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {           
+            ps.setString(1, s.getCode());
+            ps.setString(2, s.getTransactionNum());
+            ps.setString(3, s.getEmployeeName());
+            ps.setString(4, s.getSaleDate());
+            ps.setBoolean(5, s.isLease());
+            ps.executeUpdate();
+            return true;
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e);
+            return false;
+        }
+    }
+    
+    public boolean addEmployee(Employees e)
+    { //Takes an Employee object and adds it to the table record      
+        String sql =
+            "INSERT INTO Employees (make, model, stock, price, code) " +
+            "VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {           
+            ps.setString(1, e.getEmployeeName());
+            ps.setString(2, e.getPhone());
+            ps.setString(3, e.getEmail());
+            ps.setString(4, e.getDepartment());
+            ps.setDouble(5, e.getSalary());
+            ps.executeUpdate();
+            return true;
+        }
+        catch(SQLException whoops)
+        {
+            System.err.println(whoops);
+            return false;
+        }
+    }
+    
+    //Methods for deleting a record from a table. Will need
+    //helper functions to wire ability to view
+    public boolean deleteInventory(Inventory i)
+    {
+        String sql = "DELETE FROM Inventory " +
+                     "WHERE code = ?";        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {            
+            ps.setString(1, i.getCode());
+            ps.executeUpdate();
+            return true;
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e);
+            return false;
+        }
+    }
+    
+    public boolean deleteSales(Sales s)
+    {
+        String sql = "DELETE FROM Sales " +
+                     "WHERE transactionNum = ?";        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {            
+            ps.setString(1, s.getTransactionNum());
+            ps.executeUpdate();
+            return true;
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e);
+            return false;
+        }
+    }
+    
+    public boolean deleteEmployee(Employees e)
+    {
+        String sql = "DELETE FROM Employees " +
+                     "WHERE employeeName = ?";        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {            
+            ps.setString(1, e.getEmployeeName());
+            ps.executeUpdate();
+            return true;
+        }
+        catch(SQLException whoops)
+        {
+            System.err.println(whoops);
+            return false;
+        }
+    }
+    
+    //Methods for updating a record based on a criteria
+    public boolean updateInventory(Inventory i)
+    {
+        String sql = "UPDATE Inventory SET " +
+                         "make = ?, " +
+                         "model = ?, " +
+                         "stock = ?, " +
+                         "price = ? " +
+                     "WHERE code = ?";        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {            
+            ps.setString(1, i.getMake());
+            ps.setString(2, i.getModel());
+            ps.setInt(3, i.getStock());
+            ps.setDouble(4, i.getPrice());
+            ps.setString(5, i.getCode());
+            ps.executeUpdate();
+            return true;
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e);
+            return false;
+        }
+    }
+    
+    public boolean updateSales(Sales s)
+    {
+        String sql = "UPDATE Sales SET " +
+                         "code = ?, " +
+                         "employeeName = ?, " +
+                         "saleDate = ?, " +
+                         "lease = ? " +
+                     "WHERE transactionNum = ?";        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {            
+            ps.setString(1, s.getCode());
+            ps.setString(2, s.getEmployeeName());
+            ps.setString(3, s.getSaleDate());
+            ps.setBoolean(4, s.isLease());
+            ps.setString(5, s.getTransactionNum());
+            ps.executeUpdate();
+            return true;
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e);
+            return false;
+        }
+    }
+    
+    public boolean updateEmployees(Employees e)
+    {
+        String sql = "UPDATE Employees SET " +
+                         "phone = ?, " +
+                         "email = ?, " +
+                         "department = ?, " +
+                         "salary = ? " +
+                     "WHERE employeeName = ?";        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {            
+            ps.setString(1, e.getPhone());
+            ps.setString(2, e.getEmail());
+            ps.setString(3, e.getDepartment());
+            ps.setDouble(4, e.getSalary());
+            ps.setString(5, e.getEmployeeName());
+            ps.executeUpdate();
+            return true;
+        }
+        catch(SQLException whoops)
+        {
+            System.err.println(whoops);
+            return false;
         }
     }
 }
