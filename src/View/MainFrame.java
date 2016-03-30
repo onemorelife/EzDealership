@@ -5,6 +5,8 @@
  */
 package View;
 
+import java.util.ArrayList;
+
 
 /**
  *
@@ -15,9 +17,12 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() 
+    public MainFrame(EditFrame e, SearchFrame s) 
     {
+        ef = e;
+        sf = s;
         this.setLocationRelativeTo(null);
+        this.setVisible(true);
         initComponents();
     }
 
@@ -40,8 +45,18 @@ public class MainFrame extends javax.swing.JFrame {
         setName("EzDealership"); // NOI18N
 
         btnViewEdit.setText("View and Edit Selected");
+        btnViewEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewEditActionPerformed(evt);
+            }
+        });
 
         btnSearch.setText("Search Selected");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         btnExit.setText("Exit Program");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
@@ -87,10 +102,31 @@ public class MainFrame extends javax.swing.JFrame {
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnViewEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewEditActionPerformed
+        this.setVisible(false);
+        ef.setVisible(true);
+    }//GEN-LAST:event_btnViewEditActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        this.setVisible(false);
+        sf.setVisible(true);
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private EditFrame ef;
+    private SearchFrame sf;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnViewEdit;
     private javax.swing.JComboBox cbxTableList;
     // End of variables declaration//GEN-END:variables
+    
+    public void updateCbxTableList(ArrayList<String> i)
+    {
+        for(String x : i)
+        {
+            cbxTableList.addItem(x);
+        }
+    }
 }

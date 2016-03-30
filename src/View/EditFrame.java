@@ -5,16 +5,22 @@
  */
 package View;
 
+import java.util.ArrayList;
+import javax.swing.JTable;
+
 /**
  *
  * @author xTuska
  */
-public class EditForm extends javax.swing.JFrame {
+public class EditFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form EditForm
      */
-    public EditForm() {
+    public EditFrame() 
+    {
+        this.setLocationRelativeTo(null);
+        this.setVisible(false);
         initComponents();
     }
 
@@ -50,6 +56,11 @@ public class EditForm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblInfo);
 
         btnExit.setText("Exit");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -59,12 +70,9 @@ public class EditForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnExit))
-                        .addGap(0, 405, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExit))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,6 +88,25 @@ public class EditForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_btnExitActionPerformed
+
+    public void updateTitle(String title)
+    {
+        lblTittle.setText(title);
+    }
+    
+    public void updateFieldNames(ArrayList<String> info)
+    {
+        //logic to delete all cloumns
+        for(int x = 1; x <= info.size(); ++x)
+        {
+            //add cloumn and set the name from info
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JScrollPane jScrollPane1;
