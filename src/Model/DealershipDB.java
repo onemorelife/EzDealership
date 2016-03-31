@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Model;
 import Controller.Sales;
 import Controller.Inventory;
@@ -11,7 +7,7 @@ import java.util.*;
 import java.sql.*;
 /**
  *
- * @author azure
+ * @author Badruddoza Khan
  */
 public class DealershipDB 
 {
@@ -130,6 +126,117 @@ public class DealershipDB
         }
     }
     
+    //Methods for searching by criteria 
+    //Methods are table specific 
+    public Inventory getInventory(String code)
+    {   //returns a single row based on code 
+        //Pre-condition: Must be a valid code in table
+        String sql =
+            "SELECT model, make, stock, price " +
+            "FROM Inventory " +
+            "WHERE code = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {           
+            ps.setString(1, code);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                String make = rs.getString("make");
+                String model = rs.getString("model");
+                int stock = rs.getInt("stock");
+                double price = rs.getDouble("Price");
+                Inventory i = new Inventory(model, make, stock, price, code);
+                rs.close();
+                return i;
+            }
+            else
+            {
+                rs.close();
+                return null;
+            }
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e);
+            return null;
+        }
+    }
+    
+    public Sales getSales(String transactionNum)
+    {   //returns a single row based on transactionNum
+        //Pre-condition: Must be a valid transactionNum in table
+        //Will need helper method to convert transactionNum (input from view)
+        //from an int or double to a string 
+        String sql =
+            "SELECT code, employeeName, saleDate, lease " +
+            "FROM Sales " +
+            "WHERE transactionNum = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {           
+            ps.setString(1, transactionNum);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                String code = rs.getString("code");
+                String employeeName = rs.getString("employeeName");
+                String saleDate = rs.getString("saleDate");
+                boolean lease = rs.getBoolean("lease");
+                Sales s = new Sales(code, transactionNum, employeeName, 
+                                    saleDate, lease);
+                rs.close();
+                return s;
+            }
+            else
+            {
+                rs.close();
+                return null;
+            }
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e);
+            return null;
+        }
+    }
+    
+    public Employees getEmployees(String employeeName)
+    {   //returns a single row based on employeeName 
+        //Pre-condition: Must be a valid employeeName in table
+        String sql =
+            "SELECT phone, email, department, salary " +
+            "FROM Employees " +
+            "WHERE employeeName = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {           
+            ps.setString(1, employeeName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String department = rs.getString("department");
+                double salary = rs.getDouble("salary");
+                Employees e = new Employees(employeeName, phone, email, 
+                                            department, salary);
+                rs.close();
+                return e;
+            }
+            else
+            {
+                rs.close();
+                return null;
+            }
+        }
+        catch(SQLException whoops)
+        {
+            System.err.println(whoops);
+            return null;
+        }
+    }
+        
     //Methods for adding a record to a specific table 
     public boolean addInventory(Inventory i)
     { //Takes an Inventory object and adds it to the table record

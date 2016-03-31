@@ -1,16 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Controller;
 
 import java.util.Scanner;
 
 /**
  *
- * @author azure
+ * @author Murach
  */
+
+/**
+ * uncomment if validator is needed at any point 
+ * 
+ * 
 public class Validator 
 {
     public static String getLine(Scanner sc, String prompt)
@@ -111,3 +112,4 @@ public class Validator
     }
     
 }
+*/
