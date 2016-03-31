@@ -5,8 +5,7 @@
  */
 package View;
 
-import java.util.ArrayList;
-import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,6 +18,7 @@ public class EditFrame extends javax.swing.JFrame {
      */
     public EditFrame() 
     {
+        dtm = new DefaultTableModel();
         this.setLocationRelativeTo(null);
         this.setVisible(false);
         initComponents();
@@ -98,15 +98,24 @@ public class EditFrame extends javax.swing.JFrame {
         lblTittle.setText(title);
     }
     
-    public void updateFieldNames(ArrayList<String> info)
+    //needs String array containing all column names
+    public void updateColumnNames(String[] columnNames)
     {
-        //logic to delete all cloumns
-        for(int x = 1; x <= info.size(); ++x)
+        dtm = new DefaultTableModel();
+        tblInfo.setModel(dtm);
+        for(int x = 0; x < columnNames.length; ++x)
         {
-            //add cloumn and set the name from info
+            dtm.addColumn(columnNames[x]);
         }
     }
     
+    //cant each element in array has to match to correct column
+    public void addRow(String[] info)
+    {
+        dtm.addRow(info);
+    }
+    
+    private DefaultTableModel dtm;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JScrollPane jScrollPane1;

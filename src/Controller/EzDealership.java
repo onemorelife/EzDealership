@@ -9,6 +9,8 @@ package Controller;
 import View.EditFrame;
 import View.MainFrame;
 import View.SearchFrame;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
 /**
@@ -49,13 +51,28 @@ public class EzDealership {
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                EditFrame ef = new EditFrame();
-                SearchFrame sf = new SearchFrame();
-                MainFrame mf = new MainFrame(ef, sf);
-                mf.updateCbxTableList(tableNames);
+        
+        EditFrame ef = new EditFrame();
+        SearchFrame sf = new SearchFrame();
+        MainFrame mf = new MainFrame(ef, sf);
+        mf.updateCbxTableList(tableNames);
+        
+        //allows you to swap windows
+        sf.addComponentListener(new ComponentAdapter() 
+        {
+            public void componentHidden(ComponentEvent e) 
+            {
+                mf.setVisible(true);
+            }
+            
+        });
+        
+        ef.addComponentListener(new ComponentAdapter() 
+        {
+            public void componentHidden(ComponentEvent e) 
+            {
+                mf.setVisible(true);
+                //any data that needs to be pulled from table will be done here
             }
         });
     }

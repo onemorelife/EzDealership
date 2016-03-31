@@ -5,8 +5,8 @@
  */
 package View;
 
+import Controller.Updater;
 import java.util.ArrayList;
-
 
 /**
  *
@@ -105,6 +105,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnViewEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewEditActionPerformed
         this.setVisible(false);
+        Updater.updateEditFrame(this, ef);
         ef.setVisible(true);
     }//GEN-LAST:event_btnViewEditActionPerformed
 
@@ -112,6 +113,18 @@ public class MainFrame extends javax.swing.JFrame {
         this.setVisible(false);
         sf.setVisible(true);
     }//GEN-LAST:event_btnSearchActionPerformed
+    public void updateCbxTableList(ArrayList<String> i)
+    {
+        for(String x : i)
+        {
+            cbxTableList.addItem(x);
+        }
+    }
+    
+    public String getSelected()
+    {
+        return cbxTableList.getSelectedItem().toString();
+    }
 
     private EditFrame ef;
     private SearchFrame sf;
@@ -121,12 +134,4 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnViewEdit;
     private javax.swing.JComboBox cbxTableList;
     // End of variables declaration//GEN-END:variables
-    
-    public void updateCbxTableList(ArrayList<String> i)
-    {
-        for(String x : i)
-        {
-            cbxTableList.addItem(x);
-        }
-    }
 }
