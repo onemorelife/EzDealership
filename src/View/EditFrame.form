@@ -28,7 +28,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" max="-2" attributes="0"/>
                   <Component id="lblTittle" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
-                  <Component id="btnExit" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="tbnEdit" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnExit" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace pref="11" max="32767" attributes="0"/>
           </Group>
@@ -42,7 +46,10 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="167" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnExit" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnExit" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tbnEdit" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -76,10 +83,14 @@
                 <Column editable="true" title="Title 5" type="java.lang.Object"/>
               </Table>
             </Property>
+            <Property name="rowSelectionAllowed" type="boolean" value="false"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblInfoMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -89,6 +100,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExitActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JToggleButton" name="tbnEdit">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Edit"/>
+      </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="tbnEditItemStateChanged"/>
       </Events>
     </Component>
   </SubComponents>

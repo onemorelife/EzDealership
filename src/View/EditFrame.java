@@ -37,6 +37,7 @@ public class EditFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblInfo = new javax.swing.JTable();
         btnExit = new javax.swing.JButton();
+        tbnEdit = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,12 +54,25 @@ public class EditFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
             }
         ));
+        tblInfo.setRowSelectionAllowed(false);
+        tblInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblInfoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblInfo);
 
         btnExit.setText("Exit");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExitActionPerformed(evt);
+            }
+        });
+
+        tbnEdit.setText("Edit");
+        tbnEdit.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                tbnEditItemStateChanged(evt);
             }
         });
 
@@ -71,7 +85,10 @@ public class EditFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExit))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(tbnEdit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnExit)))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -82,7 +99,9 @@ public class EditFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnExit)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExit)
+                    .addComponent(tbnEdit))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -93,6 +112,42 @@ public class EditFrame extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnExitActionPerformed
 
+    private void tbnEditItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tbnEditItemStateChanged
+        //retrieve current table data
+        Object[] columnNames = {dtm.getColumnName(0),dtm.getColumnName(1),dtm.getColumnName(2),dtm.getColumnName(3),dtm.getColumnName(4)};
+        Object[][] cellData = new Object[dtm.getRowCount()][dtm.getColumnCount()];
+        for(int row = 0; row < dtm.getRowCount(); ++row)
+        {
+            for(int column = 0; column < dtm.getColumnCount(); ++column)
+            {
+                cellData[row][column] = dtm.getValueAt(row, column);
+            }
+        }
+        
+        if(tblInfo.getModel().isCellEditable(tblInfo.getModel().getRowCount(), tblInfo.getModel().getColumnCount())) //if its set to not - ediitable
+        {    
+            //sets all cells to non-editable
+            dtm = new DefaultTableModel(cellData, columnNames){
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                return false;
+                }
+                };
+            tblInfo.setModel(dtm);
+        }
+        else
+        {
+            //run a function to update database
+            dtm = new DefaultTableModel(cellData, columnNames);
+            tblInfo.setModel(dtm);
+        }
+        addEmptyRow();
+    }//GEN-LAST:event_tbnEditItemStateChanged
+
+    private void tblInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInfoMouseClicked
+        addEmptyRow();
+    }//GEN-LAST:event_tblInfoMouseClicked
+
     public void updateTitle(String title)
     {
         lblTittle.setText(title);
@@ -101,12 +156,19 @@ public class EditFrame extends javax.swing.JFrame {
     //needs String array containing all column names
     public void updateColumnNames(String[] columnNames)
     {
-        dtm = new DefaultTableModel();
-        tblInfo.setModel(dtm);
+        //by default, cant edit any cells unless you toggle edit button
+        dtm = new DefaultTableModel(){
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                return false;
+                }
+                };
+            tblInfo.setModel(dtm);
         for(int x = 0; x < columnNames.length; ++x)
         {
             dtm.addColumn(columnNames[x]);
         }
+        tblInfo.setModel(dtm);
     }
     
     //cant each element in array has to match to correct column
@@ -115,11 +177,38 @@ public class EditFrame extends javax.swing.JFrame {
         dtm.addRow(info);
     }
     
+    private boolean checkCells()
+    {
+        boolean allCellsFilled = true;
+        for(int row = 0; row < dtm.getRowCount(); ++row)
+        {
+            for(int column = 0; column < dtm.getColumnCount(); ++column)
+            {
+                allCellsFilled = tblInfo.getModel().getValueAt(row, column) != null;
+            }
+        }
+        return allCellsFilled;
+    }
+    
+    private void addEmptyRow() //adds an empty row if needed
+    {
+        Object[] o = {null, null, null, null, null};
+        if(dtm.getRowCount() == 0)
+        {
+            dtm.addRow(o);
+        }
+        if(checkCells())
+        {
+            dtm.addRow(o);
+        }
+    }
+    
     private DefaultTableModel dtm;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTittle;
     private javax.swing.JTable tblInfo;
+    private javax.swing.JToggleButton tbnEdit;
     // End of variables declaration//GEN-END:variables
 }

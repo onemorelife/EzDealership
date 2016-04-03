@@ -5,11 +5,11 @@ import View.EditFrame;
 import View.MainFrame;
 import java.util.ArrayList;
 import Controller.Inventory;
+import java.text.NumberFormat;
 
 //exists to update the data on the tables of the GUI
-// will be run on the event listenter for when a window is set to visible
 
-public class Updater 
+public class FillData 
 {
     public static void updateEditFrame(MainFrame mf, EditFrame ef)
     {
@@ -29,7 +29,7 @@ public class Updater
                                      x.getPhone(),
                                      x.getEmail(),
                                      x.getDepartment(),
-                                     Double.toString(x.getSalary())};//change salary to use currancy format later
+                                     NumberFormat.getCurrencyInstance().format(x.getSalary())};
                     ef.addRow(info);
                 }*/
                 break;
@@ -44,12 +44,26 @@ public class Updater
                     String[] info = {x.getModel(),
                                      x.getMake(),
                                      Double.toString(x.getStock()),
-                                     Double.toString(x.getPrice()),
+                                     NumberFormat.getCurrencyInstance().format(x.getPrice()),
                                      x.getCode()};
                     ef.addRow(info);
                 }*/
                 break;
             case "Sales":
+                ef.updateTitle("Sales");
+                String[] columns3 = {"Code","Transaction #","Employee Name","Sale Date","Lease"};
+                ef.updateColumnNames(columns3);
+                /*
+                ArrayList<Sales> sls = db.getSales();
+                for(Sales x : sls)
+                {
+                    String[] info = {x.getCode(),
+                                     x.getTransactionNum(),
+                                     x.getEmployeeName(),
+                                     x.getSaleDate(),
+                                     (x.isLease() ? "True" : "False")}; //possibly change to yes/no?
+                    ef.addRow(info);
+                }*/
                 break;
         }
     }

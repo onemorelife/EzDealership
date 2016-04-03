@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.Updater;
+import Controller.FillData;
 import java.util.ArrayList;
 
 /**
@@ -105,7 +105,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnViewEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewEditActionPerformed
         this.setVisible(false);
-        Updater.updateEditFrame(this, ef);
+        FillData.updateEditFrame(this, ef);
         ef.setVisible(true);
     }//GEN-LAST:event_btnViewEditActionPerformed
 
