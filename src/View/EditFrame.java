@@ -153,6 +153,11 @@ public class EditFrame extends javax.swing.JFrame {
         lblTittle.setText(title);
     }
     
+    public String getTitle()
+    {
+        return lblTittle.getText();
+    }
+    
     //needs String array containing all column names
     public void updateColumnNames(String[] columnNames)
     {

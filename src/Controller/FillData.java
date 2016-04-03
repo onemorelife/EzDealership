@@ -4,7 +4,6 @@ import Model.DealershipDB;
 import View.EditFrame;
 import View.MainFrame;
 import java.util.ArrayList;
-import Controller.Inventory;
 import java.text.NumberFormat;
 
 //exists to update the data on the tables of the GUI
