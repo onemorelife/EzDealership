@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controller.PullData;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -125,7 +126,7 @@ public class EditFrame extends javax.swing.JFrame {
             }
         }
         
-        if(tblInfo.getModel().isCellEditable(tblInfo.getModel().getRowCount(), tblInfo.getModel().getColumnCount())) //if its set to not - ediitable
+        if(tblInfo.getModel().isCellEditable(tblInfo.getModel().getRowCount(), tblInfo.getModel().getColumnCount()) && checkCells()) //if its ediitable, set to non-editable
         {    
             //sets all cells to non-editable
             dtm = new DefaultTableModel(cellData, columnNames){
@@ -135,12 +136,18 @@ public class EditFrame extends javax.swing.JFrame {
                 }
                 };
             tblInfo.setModel(dtm);
+            
+            //update once your done editing
+            PullData.updateDB(this);
+        }
+        else if (!tblInfo.getModel().isCellEditable(tblInfo.getModel().getRowCount(), tblInfo.getModel().getColumnCount()) && checkCells())
+        {
+            dtm = new DefaultTableModel(cellData, columnNames);
+            tblInfo.setModel(dtm);
         }
         else
         {
-            //run a function to update database
-            dtm = new DefaultTableModel(cellData, columnNames);
-            tblInfo.setModel(dtm);
+            //error that all fields must be filled
         }
         addEmptyRow();
     }//GEN-LAST:event_tbnEditItemStateChanged
@@ -154,7 +161,7 @@ public class EditFrame extends javax.swing.JFrame {
         lblTittle.setText(title);
     }
     
-    public String getTitle()
+    public String getTableTitle()
     {
         return lblTittle.getText();
     }
