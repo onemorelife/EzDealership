@@ -7,6 +7,7 @@ package View;
 
 import Controller.PullData;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -111,7 +112,14 @@ public class EditFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        this.setVisible(false);
+        if(checkCells(true))
+        {
+            this.setVisible(false);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "All cells must be filled.");
+        }
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void tbnEditItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tbnEditItemStateChanged
@@ -126,7 +134,7 @@ public class EditFrame extends javax.swing.JFrame {
             }
         }
         
-        if(tblInfo.getModel().isCellEditable(tblInfo.getModel().getRowCount(), tblInfo.getModel().getColumnCount()) && checkCells()) //if its ediitable, set to non-editable
+        if(tblInfo.getModel().isCellEditable(tblInfo.getModel().getRowCount(), tblInfo.getModel().getColumnCount()) && checkCells(true)) //if its ediitable, set to non-editable
         {    
             //sets all cells to non-editable
             dtm = new DefaultTableModel(cellData, columnNames){
@@ -136,18 +144,15 @@ public class EditFrame extends javax.swing.JFrame {
                 }
                 };
             tblInfo.setModel(dtm);
-            
-            //update once your done editing
-            PullData.updateDB(this);
         }
-        else if (!tblInfo.getModel().isCellEditable(tblInfo.getModel().getRowCount(), tblInfo.getModel().getColumnCount()) && checkCells())
+        else if (!tblInfo.getModel().isCellEditable(tblInfo.getModel().getRowCount(), tblInfo.getModel().getColumnCount()) && checkCells(true))
         {
             dtm = new DefaultTableModel(cellData, columnNames);
             tblInfo.setModel(dtm);
         }
         else
         {
-            //error that all fields must be filled
+            JOptionPane.showMessageDialog(this, "All cells must be filled.");
         }
         addEmptyRow();
     }//GEN-LAST:event_tbnEditItemStateChanged
@@ -184,7 +189,7 @@ public class EditFrame extends javax.swing.JFrame {
         tblInfo.setModel(dtm);
     }
     
-    //cant each element in array has to match to correct column
+    //each element in array has to match to correct column
     public void addRow(String[] info)
     {
         dtm.addRow(info);
@@ -202,26 +207,66 @@ public class EditFrame extends javax.swing.JFrame {
     
     private ArrayList<String> getRow(int index)
     {
-        ArrayList<String> row = new ArrayList<>();
-        row.add((String)tblInfo.getModel().getValueAt(index, 0));
-        row.add((String)tblInfo.getModel().getValueAt(index, 1));
-        row.add((String)tblInfo.getModel().getValueAt(index, 2));
-        row.add((String)tblInfo.getModel().getValueAt(index, 3));
-        row.add((String)tblInfo.getModel().getValueAt(index, 4));
-        return row;
-    }
-    
-    private boolean checkCells()
-    {
-        boolean allCellsFilled = true;
-        for(int row = 0; row < dtm.getRowCount(); ++row)
+        int emptyCellCount = 0; //check if row is empty
+        for(int column = 0; column < dtm.getColumnCount(); ++column)
         {
-            for(int column = 0; column < dtm.getColumnCount(); ++column)
+            if(tblInfo.getModel().getValueAt(index, column) == null) //if cell is empty
             {
-                allCellsFilled = tblInfo.getModel().getValueAt(row, column) != null;
+                emptyCellCount++;
             }
         }
-        return allCellsFilled;
+        if(emptyCellCount == 5) //ignore empty rows
+        {
+            return null;
+        }
+        else
+        {
+            ArrayList<String> row = new ArrayList<>();
+            row.add((String)tblInfo.getModel().getValueAt(index, 0));
+            row.add((String)tblInfo.getModel().getValueAt(index, 1));
+            row.add((String)tblInfo.getModel().getValueAt(index, 2));
+            row.add((String)tblInfo.getModel().getValueAt(index, 3));
+            row.add((String)tblInfo.getModel().getValueAt(index, 4));
+            return row;
+        }
+    }
+    
+    private boolean checkCells(boolean ignoreEmptyRows)
+    {
+        if(ignoreEmptyRows)
+        {
+            boolean allCellsFilled = true;
+            int emptyCellCount;
+            for(int row = 0; row < dtm.getRowCount(); ++row)
+            {
+                emptyCellCount = 0;
+                for(int column = 0; column < dtm.getColumnCount(); ++column)
+                {
+                    allCellsFilled = tblInfo.getModel().getValueAt(row, column) != null;
+                    if(!allCellsFilled) //if a cell was empty
+                    {
+                        emptyCellCount++;
+                        if(emptyCellCount == 5) //the row was empty
+                        {
+                            allCellsFilled = true; //empty rows are ignored
+                        }
+                    }
+                }
+            }
+            return allCellsFilled;
+        }
+        else
+        {
+            boolean allCellsFilled = true;
+            for(int row = 0; row < dtm.getRowCount(); ++row)
+            {
+                for(int column = 0; column < dtm.getColumnCount(); ++column)
+                {
+                    allCellsFilled = tblInfo.getModel().getValueAt(row, column) != null;
+                }
+            }
+            return allCellsFilled;
+        }
     }
     
     private void addEmptyRow() //adds an empty row if needed
@@ -231,7 +276,7 @@ public class EditFrame extends javax.swing.JFrame {
         {
             dtm.addRow(o);
         }
-        if(checkCells())
+        if(checkCells(false)) //if there is an empty row, user can use that instead of adding more
         {
             dtm.addRow(o);
         }

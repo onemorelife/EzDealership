@@ -19,21 +19,45 @@ public class PullData
             ArrayList<Inventory> invNew = new ArrayList<>();
             for(ArrayList<String> row : table)
             {
-                Inventory object = new Inventory(row.get(0), row.get(1), Integer.parseInt(row.get(2)), Double.parseDouble(row.get(3)), row.get(4));
-                invNew.add(object);
-            }
-            for(int index = 0; index < invNew.size(); ++index)
-            {
-                if(index < invOld.size()) //only compare already existing items
+                if(row != null) //row is null if it was empty
                 {
-                    if(invNew.get(index) != invOld.get(index)) //need to overwrite compareto for all table-classes
+                    Inventory object = new Inventory(row.get(0), row.get(1), Integer.parseInt(row.get(2)), Double.parseDouble(row.get(3)), row.get(4));
+                    invNew.add(object);
+                }
+            }
+            
+            //check if an object was deleted from the new inventory
+            for(Inventory oldI : invOld)
+            {
+                boolean existInNew = false;
+                for(Inventory newI : invNew)
+                {
+                    if(oldI == newI)
                     {
-                        db.updateInventory(invNew.get(index));
+                        existInNew = true;
                     }
                 }
-                else
+                if(!existInNew)
                 {
-                    db.addInventory(invNew.get(index)); //add any new items
+                    db.deleteInventory(oldI);
+                }
+            }
+            
+            //check if the new object exists in the db already
+            // if it doesnt, then add it
+            for(Inventory newI : invNew)
+            {
+                boolean existInOld = false;
+                for(Inventory oldI : invOld)
+                {
+                    if(oldI == newI)
+                    {
+                        existInOld = true;
+                    }
+                }
+                if(!existInOld)
+                {
+                    db.addInventory(newI);
                 }
             }
         }
@@ -43,21 +67,45 @@ public class PullData
             ArrayList<Sales> slsNew = new ArrayList<>();
             for(ArrayList<String> row : table)
             {
+                if(row != null) //row is null if it was empty
+                {
                 Sales object = new Sales(row.get(0), row.get(1), row.get(2), row.get(3), row.get(4).equalsIgnoreCase("true"));
                 slsNew.add(object);
+                }
             }
-            for(int index = 0; index < slsNew.size(); ++index)
+            
+            //check if an object was deleted from the new inventory
+            for(Sales oldS : slsOld)
             {
-                if(index < slsOld.size()) //only compare already existing items
+                boolean existInNew = false;
+                for(Sales newS : slsNew)
                 {
-                    if(slsNew.get(index) != slsOld.get(index)) //need to overwrite compareto for all table-classes
+                    if(oldS == newS)
                     {
-                        db.updateSales(slsNew.get(index));
+                        existInNew = true;
                     }
                 }
-                else
+                if(!existInNew)
                 {
-                    db.addSales(slsNew.get(index)); //add any new items
+                    db.deleteSales(oldS);
+                }
+            }
+            
+            //check if the new object exists in the db already
+            // if it doesnt, then add it
+            for(Sales newS : slsNew)
+            {
+                boolean existInOld = false;
+                for(Sales oldS : slsOld)
+                {
+                    if(oldS == newS)
+                    {
+                        existInOld = true;
+                    }
+                }
+                if(!existInOld)
+                {
+                    db.addSales(newS);
                 }
             }
         }
@@ -67,21 +115,45 @@ public class PullData
             ArrayList<Employees> empNew = new ArrayList<>();
             for(ArrayList<String> row : table)
             {
+                if(row != null) //row is null if it was empty
+                {
                 Employees object = new Employees(row.get(0), row.get(1), row.get(2), row.get(3), Double.parseDouble(row.get(4)));
                 empNew.add(object);
+                }
             }
-            for(int index = 0; index < empNew.size(); ++index)
+            
+            //check if an object was deleted from the new inventory
+            for(Employees oldE : empOld)
             {
-                if(index < empOld.size()) //only compare already existing items
+                boolean existInNew = false;
+                for(Employees newE : empNew)
                 {
-                    if(empNew.get(index) != empOld.get(index)) //need to overwrite compareto for all table-classes
+                    if(oldE == newE)
                     {
-                        db.updateEmployees(empNew.get(index));
+                        existInNew = true;
                     }
                 }
-                else
+                if(!existInNew)
                 {
-                    db.addEmployee(empNew.get(index)); //add any new items
+                    db.deleteEmployee(oldE);
+                }
+            }
+            
+            //check if the new object exists in the db already
+            // if it doesnt, then add it
+            for(Employees newE : empNew)
+            {
+                boolean existInOld = false;
+                for(Employees oldE : empOld)
+                {
+                    if(oldE == newE)
+                    {
+                        existInOld = true;
+                    }
+                }
+                if(!existInOld)
+                {
+                    db.addEmployee(newE);
                 }
             }
         }

@@ -167,7 +167,8 @@ public class DealershipDB
     {   //returns a single row based on transactionNum
         //Pre-condition: Must be a valid transactionNum in table
         //Will need helper method to convert transactionNum (input from view)
-        //from an int or double to a string 
+        //from an int or double to a string  
+        // ^all data pulled from view is a string by default^
         String sql =
             "SELECT code, employeeName, saleDate, lease " +
             "FROM Sales " +

@@ -3,6 +3,7 @@ package Controller;
 import Model.DealershipDB;
 import View.EditFrame;
 import View.MainFrame;
+import View.SearchFrame;
 import java.util.ArrayList;
 import java.text.NumberFormat;
 
@@ -63,6 +64,29 @@ public class FillData
                                      (x.isLease() ? "True" : "False")}; //possibly change to yes/no?
                     ef.addRow(info);
                 }*/
+                break;
+        }
+    }
+    
+    public static void updateSearchFrame(MainFrame mf, SearchFrame sf)
+    {
+        DealershipDB db = new DealershipDB();
+        String selected = mf.getSelected();
+        switch (selected) {
+            case "Employees":
+                sf.updateLabels("Employee");
+                String[] columns1 = {"Phone #","Email","Department","Salary"};
+                sf.updateColumnNames(columns1);
+                break;
+            case "Inventory":
+                sf.updateLabels("Inventory");
+                String[] columns2 = {"Model","Make","Stock","Price"};
+                sf.updateColumnNames(columns2);
+                break;
+            case "Sales":
+                sf.updateLabels("Sales");
+                String[] columns3 = {"Code","Employee Name","Sale Date","Lease"};
+                sf.updateColumnNames(columns3);
                 break;
         }
     }

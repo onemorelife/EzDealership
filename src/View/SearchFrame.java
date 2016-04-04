@@ -5,6 +5,8 @@
  */
 package View;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author xTuska
@@ -16,6 +18,7 @@ public class SearchFrame extends javax.swing.JFrame {
      */
     public SearchFrame() 
     {
+        dtm = new DefaultTableModel();
         this.setLocationRelativeTo(null);
         this.setVisible(false);
         initComponents();
@@ -30,20 +33,13 @@ public class SearchFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         lblTittle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblInfo = new javax.swing.JTable();
-        cbxConditions = new javax.swing.JComboBox();
-        cbxColumns = new javax.swing.JComboBox();
         txfCondition = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
-
-        jButton2.setText("jButton2");
-
-        jButton1.setText("jButton1");
+        lblCondition = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,8 +58,6 @@ public class SearchFrame extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblInfo);
 
-        cbxConditions.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "is equal to", "is less than", "is greater than" }));
-
         btnSearch.setText("Search");
 
         btnExit.setText("Exit");
@@ -73,6 +67,8 @@ public class SearchFrame extends javax.swing.JFrame {
             }
         });
 
+        lblCondition.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,20 +76,16 @@ public class SearchFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(cbxColumns, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxConditions, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblCondition, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txfCondition, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -105,13 +97,11 @@ public class SearchFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbxConditions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxColumns, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCondition)
                     .addComponent(txfCondition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnExit)
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(btnSearch)
+                    .addComponent(btnExit))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -121,14 +111,51 @@ public class SearchFrame extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnExitActionPerformed
 
+    public void updateLabels(String tblName)
+    {
+        updateTitle(tblName);
+        updateCondition(tblName);
+    }
+    
+    public void updateColumnNames(String[] columnNames)
+    {
+        //by default, cant edit any cells
+        dtm = new DefaultTableModel(){
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                return false;
+                }
+                };
+            tblInfo.setModel(dtm);
+        for(int x = 0; x < columnNames.length; ++x)
+        {
+            dtm.addColumn(columnNames[x]);
+        }
+        tblInfo.setModel(dtm);
+    }
+    
+    public void addRow(String[] info)
+    {
+        dtm.addRow(info);
+    }
+    
+    private void updateTitle(String title)
+    {
+        lblTittle.setText(title);
+    }
+    
+    private void updateCondition(String columnName)
+    {
+        columnName += " is equal to:";
+        lblCondition.setText(columnName);
+    }
+    
+    private DefaultTableModel dtm;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JComboBox cbxColumns;
-    private javax.swing.JComboBox cbxConditions;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCondition;
     private javax.swing.JLabel lblTittle;
     private javax.swing.JTable tblInfo;
     private javax.swing.JTextField txfCondition;
