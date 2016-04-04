@@ -5,6 +5,7 @@
  */
 package View;
 
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -180,6 +181,27 @@ public class EditFrame extends javax.swing.JFrame {
     public void addRow(String[] info)
     {
         dtm.addRow(info);
+    }
+    
+    public ArrayList<ArrayList<String>> getInfo()
+    {
+        ArrayList<ArrayList<String>> table = new ArrayList<>();
+        for(int x = 0; x < tblInfo.getModel().getRowCount(); ++x)
+        {
+            table.add(getRow(x));
+        }
+        return table;
+    }
+    
+    private ArrayList<String> getRow(int index)
+    {
+        ArrayList<String> row = new ArrayList<>();
+        row.add((String)tblInfo.getModel().getValueAt(index, 0));
+        row.add((String)tblInfo.getModel().getValueAt(index, 1));
+        row.add((String)tblInfo.getModel().getValueAt(index, 2));
+        row.add((String)tblInfo.getModel().getValueAt(index, 3));
+        row.add((String)tblInfo.getModel().getValueAt(index, 4));
+        return row;
     }
     
     private boolean checkCells()
