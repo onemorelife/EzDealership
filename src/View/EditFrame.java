@@ -114,8 +114,10 @@ public class EditFrame extends javax.swing.JFrame {
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         if(checkCells(true))
         {
-            //if()
-            this.setVisible(false);
+            if(validateFields())
+            {
+                this.setVisible(false);
+            }
         }
         else
         {
@@ -241,10 +243,9 @@ public class EditFrame extends javax.swing.JFrame {
         if(ignoreEmptyRows)
         {
             boolean allCellsFilled = true;
-            int emptyCellCount;
+            int emptyCellCount = 0;
             for(int row = 0; row < dtm.getRowCount(); ++row)
             {
-                emptyCellCount = 0;
                 for(int column = 0; column < dtm.getColumnCount(); ++column)
                 {
                     allCellsFilled = tblInfo.getModel().getValueAt(row, column) != null;
@@ -257,6 +258,7 @@ public class EditFrame extends javax.swing.JFrame {
                         }
                     }
                 }
+                emptyCellCount = 0;
             }
             return allCellsFilled;
         }
@@ -287,15 +289,116 @@ public class EditFrame extends javax.swing.JFrame {
         }
     }
     
-    private void validateFields() //maybe move to a different class?
+    private boolean validateFields() //maybe move to a different class?
     {
+        boolean valid = true;
         String valType = lblTittle.getText();
         switch (valType)
         {
             case "Employees":
-                int[] columnsToValidate = {};
+                int columnsToValidate1 = 4;
+                for(int index = 0; index < tblInfo.getModel().getRowCount(); ++index)
+                {
+                    try
+                    {
+                        double test = Double.parseDouble((String)tblInfo.getModel().getValueAt(index, columnsToValidate1));
+                    }
+                    catch(NumberFormatException e)
+                    {
+                        String message = "The value located in the ";
+                        message += Double.toString(index + 1);
+                        switch ((index % 2) + 1)
+                        {
+                            case 1:
+                                message += "st";
+                                break;
+                            case 2:
+                                message += "nd";
+                                break;
+                            case 3:
+                                message += "rd";
+                                break;
+                            default:
+                                message += "th";
+                                break;
+                        }
+                        message += " row, under the " + dtm.getColumnName(index) 
+                                + " column can only contain a number.";
+                        valid = false;
+                        JOptionPane.showMessageDialog(this, message);
+                    }
+                }
+                break;
+            case "Inventory":
+                int[] columnsToValidate2 = {2,3};
+                for(int index = 0; index < tblInfo.getModel().getRowCount(); ++index)
+                {
+                    for(int column : columnsToValidate2)
+                    {
+                        try
+                        {
+                            double test = Double.parseDouble((String)tblInfo.getModel().getValueAt(index, column));
+                        }
+                        catch(NumberFormatException e)
+                        {
+                            String message = "The value located in the ";
+                            message += Double.toString(index + 1);
+                            switch ((index % 2) + 1)
+                            {
+                                case 1:
+                                    message += "st";
+                                    break;
+                                case 2:
+                                    message += "nd";
+                                    break;
+                                case 3:
+                                    message += "rd";
+                                    break;
+                                default:
+                                    message += "th";
+                                    break;
+                            }
+                            message += " row, under the " + dtm.getColumnName(index) 
+                                    + " column can only contain a number.";
+                            valid = false;
+                            JOptionPane.showMessageDialog(this, message);
+                        }
+                    }
+                }
+                break;
+            case "Sales":
+                int columnsToValidate3 = 5;
+                for(int index = 0; index < tblInfo.getModel().getRowCount(); ++index)
+                {
+                    String test = (String)tblInfo.getModel().getValueAt(index, columnsToValidate3);
+                    if(!test.equalsIgnoreCase("True") && !test.equalsIgnoreCase("False"))
+                    {
+                        String message = "The value located in the ";
+                        message += Double.toString(index + 1);
+                        switch ((index % 2) + 1)
+                        {
+                            case 1:
+                                message += "st";
+                                break;
+                            case 2:
+                                message += "nd";
+                                break;
+                            case 3:
+                                message += "rd";
+                                break;
+                            default:
+                                message += "th";
+                                break;
+                        }
+                        message += " row, under the " + dtm.getColumnName(index) 
+                                + " column can only contain True or False.";
+                        valid = false;
+                        JOptionPane.showMessageDialog(this, message);
+                    }
+                }
                 break;
         }
+        return valid;
     }
     
     private DefaultTableModel dtm;
