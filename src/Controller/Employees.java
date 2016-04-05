@@ -1,9 +1,20 @@
-
 package Controller;
-
 /**
- *
- * @author azure
+ * This class handles everything to do with the employee table
+ * employeeName: is the name of the employee, It is all one string,
+ *      but you enter the name in First name, Last name format.
+ * phone: The employees phone number, entered as a sting
+ *      all one number, no spaces/slashes between them.
+ * email: Enter the email of the employee, entered in regular
+ *      format all as one string.
+ * department: This is the employees department, 
+ *      all entered as one string.
+ * salary: This is how much the employee makes in a year.
+ *      It is entered as double.
+ * 
+ * Employees(): takes all of these in order, and sets them to
+ *      the right values and then returns to the employees table.
+ *  
  */
 public class Employees 
 {
