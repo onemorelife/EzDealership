@@ -114,17 +114,22 @@ public class EditFrame extends javax.swing.JFrame {
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         if(checkCells(true))
         {
+            //if()
             this.setVisible(false);
         }
         else
         {
-            JOptionPane.showMessageDialog(this, "All cells must be filled.");
+            JOptionPane.showMessageDialog(this, "All cells must be filled, or the line must be empty to delete an entry.");
         }
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void tbnEditItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tbnEditItemStateChanged
         //retrieve current table data
-        Object[] columnNames = {dtm.getColumnName(0),dtm.getColumnName(1),dtm.getColumnName(2),dtm.getColumnName(3),dtm.getColumnName(4)};
+        Object[] columnNames = new Object[dtm.getColumnCount()];
+        for(int index = 0; index < dtm.getColumnCount(); ++index)
+        {
+            columnNames[index] = dtm.getColumnName(index);
+        }
         Object[][] cellData = new Object[dtm.getRowCount()][dtm.getColumnCount()];
         for(int row = 0; row < dtm.getRowCount(); ++row)
         {
@@ -152,7 +157,7 @@ public class EditFrame extends javax.swing.JFrame {
         }
         else
         {
-            JOptionPane.showMessageDialog(this, "All cells must be filled.");
+            JOptionPane.showMessageDialog(this, "All cells must be filled, or the line must be empty to delete an entry.");
         }
         addEmptyRow();
     }//GEN-LAST:event_tbnEditItemStateChanged
@@ -279,6 +284,17 @@ public class EditFrame extends javax.swing.JFrame {
         if(checkCells(false)) //if there is an empty row, user can use that instead of adding more
         {
             dtm.addRow(o);
+        }
+    }
+    
+    private void validateFields() //maybe move to a different class?
+    {
+        String valType = lblTittle.getText();
+        switch (valType)
+        {
+            case "Employees":
+                int[] columnsToValidate = {};
+                break;
         }
     }
     
