@@ -17,7 +17,7 @@ public class DealershipDB
         try
         {
             //Set the directory
-            String dbDirectory = "c:/dealership/db";
+            String dbDirectory = "db";
             System.setProperty("derby.system.home", dbDirectory);
 
             //Set the db url, username, and password
@@ -111,7 +111,7 @@ public class DealershipDB
                 String employeeName = rs.getString("employeeName");
                 String phone = rs.getString("phone");
                 String email = rs.getString("email");
-                String department = rs.getString("derpartment");
+                String department = rs.getString("department");
                 double salary = rs.getDouble("salary");
 
                 Employees e = new Employees(employeeName, phone, email, department, salary);
