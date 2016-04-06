@@ -145,7 +145,7 @@ public class DealershipDB
                 String make = rs.getString("make");
                 String model = rs.getString("model");
                 int stock = rs.getInt("stock");
-                double price = rs.getDouble("Price");
+                double price = rs.getDouble("price");
                 Inventory i = new Inventory(model, make, stock, price, code);
                 rs.close();
                 return i;
@@ -166,9 +166,6 @@ public class DealershipDB
     public Sales getSales(String transactionNum)
     {   //returns a single row based on transactionNum
         //Pre-condition: Must be a valid transactionNum in table
-        //Will need helper method to convert transactionNum (input from view)
-        //from an int or double to a string  
-        // ^all data pulled from view is a string by default^
         String sql =
             "SELECT code, employeeName, saleDate, lease " +
             "FROM Sales " +
@@ -290,7 +287,7 @@ public class DealershipDB
     public boolean addEmployee(Employees e)
     { //Takes an Employee object and adds it to the table record      
         String sql =
-            "INSERT INTO Employees (make, model, stock, price, code) " +
+            "INSERT INTO Employees (employeeName, phone, email, department, salary) " +
             "VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql))
