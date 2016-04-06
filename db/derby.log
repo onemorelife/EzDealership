@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Tue Apr 05 22:59:07 EDT 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0153-e982-58d6-000000000c7e 
+Wed Apr 06 14:46:10 EDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0153-ece5-65e8-000000000c7e 
 on database directory C:\Users\Tuska\Documents\NetBeansProjects\EzDealership\db\DealershipDB with class loader sun.misc.Launcher$AppClassLoader@330bedb4 
 Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_60/db/lib/derby.jar
 java.vendor=Oracle Corporation

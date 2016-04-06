@@ -16,7 +16,7 @@ package Controller;
  * 
  */
 
-public class Sales 
+public class Sales implements Comparable
 {
     private String code; 
     private String transactionNum; 
@@ -78,5 +78,22 @@ public class Sales
 
     public void setLease(boolean lease) {
         this.lease = lease;
+    }
+    
+    @Override
+    public int compareTo(Object t) 
+    {
+        try
+        {
+            Sales sls = (Sales) t;
+            if(sls.getTransactionNum().equalsIgnoreCase(this.getTransactionNum()))
+                return 0;
+            else
+                return -1;
+        }
+        catch(Exception e)
+        {
+            return -1;
+        }
     }
 }

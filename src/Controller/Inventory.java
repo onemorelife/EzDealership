@@ -16,7 +16,7 @@ package Controller;
  * 
  */
 
-public class Inventory 
+public class Inventory implements Comparable
 {
     private String model; 
     private String make; 
@@ -78,4 +78,21 @@ public class Inventory
     public void setCode(String code) {
         this.code = code;
     }    
+    
+    @Override
+    public int compareTo(Object t) 
+    {
+        try
+        {
+            Inventory inv = (Inventory) t;
+            if(inv.getCode().equalsIgnoreCase(this.getCode()))
+                return 0;
+            else
+                return -1;
+        }
+        catch(Exception e)
+        {
+            return -1;
+        }
+    }
 }

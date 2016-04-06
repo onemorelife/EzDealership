@@ -16,7 +16,7 @@ package Controller;
  *      the right values and then returns to the employees table.
  *  
  */
-public class Employees 
+public class Employees implements Comparable
 {
     private String employeeName; 
     private String phone; 
@@ -78,5 +78,22 @@ public class Employees
 
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+
+    @Override
+    public int compareTo(Object t) 
+    {
+        try
+        {
+            Employees emp = (Employees) t;
+            if(emp.getEmployeeName().equalsIgnoreCase(this.getEmployeeName()))
+                return 0;
+            else
+                return -1;
+        }
+        catch(Exception e)
+        {
+            return -1;
+        }
     }
 }

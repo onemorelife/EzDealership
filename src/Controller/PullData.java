@@ -19,8 +19,8 @@ public class PullData
             ArrayList<Inventory> invNew = new ArrayList<>();
             for(ArrayList<String> row : table)
             {
-                if(row != null) //row is null if it was empty
-                {
+               if( row != null && !row.get(0).equalsIgnoreCase("")) //first check if its null or not, the check if it just contains empty strings or not
+                {                                                    // ignore the row in both cases
                     Inventory object = new Inventory(row.get(0), row.get(1), Integer.parseInt(row.get(2)), toDouble(row.get(3)), row.get(4));
                     invNew.add(object);
                 }
@@ -67,10 +67,10 @@ public class PullData
             ArrayList<Sales> slsNew = new ArrayList<>();
             for(ArrayList<String> row : table)
             {
-                if(row != null) //row is null if it was empty
-                {
-                Sales object = new Sales(row.get(0), row.get(1), row.get(2), row.get(3), row.get(4).equalsIgnoreCase("true"));
-                slsNew.add(object);
+                if( row != null && !row.get(0).equalsIgnoreCase("")) //first check if its null or not, the check if it just contains empty strings or not
+                {                                                    // ignore the row in both cases
+                    Sales object = new Sales(row.get(0), row.get(1), row.get(2), row.get(3), row.get(4).equalsIgnoreCase("true"));
+                    slsNew.add(object);
                 }
             }
             
@@ -115,10 +115,10 @@ public class PullData
             ArrayList<Employees> empNew = new ArrayList<>();
             for(ArrayList<String> row : table)
             {
-                if(row != null) //row is null if it was empty
-                {
-                Employees object = new Employees(row.get(0), row.get(1), row.get(2), row.get(3), toDouble(row.get(4)));
-                empNew.add(object);
+                if( row != null && !row.get(0).equalsIgnoreCase("")) //first check if its null or not, the check if it just contains empty strings or not
+                {                                                    // ignore the row in both cases
+                    Employees object = new Employees(row.get(0), row.get(1), row.get(2), row.get(3), toDouble(row.get(4)));
+                    empNew.add(object);
                 }
             }
             
