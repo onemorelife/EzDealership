@@ -99,7 +99,7 @@ public class DealershipDB
     public ArrayList<Employees> getEmployees()
     {
         String sql = "SELECT *"
-                + "FROM Sales ORDER BY employeeName ASC";        
+                + "FROM Employees ORDER BY employeeName ASC";        
         ArrayList<Employees> employees = new ArrayList<>();
         
         try (Connection connection = getConnection();
