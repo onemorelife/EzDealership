@@ -55,9 +55,9 @@ SELECT * FROM Employees;
 CREATE TABLE Sales
 (
 	code VARCHAR(4),
-	quantity INT,
+	transactionNum INT,
 	employeeName VARCHAR(24),
-	salesDate VARCHAR(8),
+	saleDate VARCHAR(8),
 	lease BOOLEAN
 );
 
