@@ -306,7 +306,7 @@ public class EditFrame extends javax.swing.JFrame {
                     catch(NumberFormatException e)
                     {
                         String message = "The value located in the ";
-                        message += Double.toString(index + 1);
+                        message += Integer.toString(index + 1);
                         switch ((index % 2) + 1)
                         {
                             case 1:
@@ -330,51 +330,52 @@ public class EditFrame extends javax.swing.JFrame {
                 }
                 break;
             case "Inventory":
-                int[] columnsToValidate2 = {2,3};
+                int columnsToValidate2;
                 for(int index = 0; index < tblInfo.getModel().getRowCount(); ++index)
                 {
-                    for(int column : columnsToValidate2)
+                    try
                     {
-                        try
-                        {
-                            double test = Double.parseDouble((String)tblInfo.getModel().getValueAt(index, column));
-                        }
-                        catch(NumberFormatException e)
-                        {
-                            String message = "The value located in the ";
-                            message += Double.toString(index + 1);
-                            switch ((index % 2) + 1)
-                            {
-                                case 1:
-                                    message += "st";
-                                    break;
-                                case 2:
-                                    message += "nd";
-                                    break;
-                                case 3:
-                                    message += "rd";
-                                    break;
-                                default:
-                                    message += "th";
-                                    break;
-                            }
-                            message += " row, under the " + dtm.getColumnName(index) 
-                                    + " column can only contain a number.";
-                            valid = false;
-                            JOptionPane.showMessageDialog(this, message);
-                        }
+                        columnsToValidate2 = 2;
+                        double test = Integer.parseInt((String)tblInfo.getModel().getValueAt(index, columnsToValidate2));
+                        columnsToValidate2 = 3;
+                        double test2 = Double.parseDouble((String)tblInfo.getModel().getValueAt(index, columnsToValidate2));
                     }
+                    catch(NumberFormatException e)
+                    {
+                        String message = "The value located in the ";
+                        message += Integer.toString(index + 1);
+                        switch ((index % 2) + 1)
+                        {
+                            case 1:
+                                message += "st";
+                                break;
+                            case 2:
+                                message += "nd";
+                                break;
+                            case 3:
+                                message += "rd";
+                                break;
+                            default:
+                                message += "th";
+                                break;
+                        }
+                        message += " row, under the " + dtm.getColumnName(index) 
+                                + " column can only contain a number.";
+                        valid = false;
+                        JOptionPane.showMessageDialog(this, message);
+                    }
+
                 }
                 break;
             case "Sales":
-                int columnsToValidate3 = 5;
+                int columnsToValidate3 = 4;
                 for(int index = 0; index < tblInfo.getModel().getRowCount(); ++index)
                 {
                     String test = (String)tblInfo.getModel().getValueAt(index, columnsToValidate3);
                     if(!test.equalsIgnoreCase("True") && !test.equalsIgnoreCase("False"))
                     {
                         String message = "The value located in the ";
-                        message += Double.toString(index + 1);
+                        message += Integer.toString(index + 1);
                         switch ((index % 2) + 1)
                         {
                             case 1:

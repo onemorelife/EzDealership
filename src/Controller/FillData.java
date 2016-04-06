@@ -20,7 +20,6 @@ public class FillData
                 ef.updateTitle("Employee");
                 String[] columns1 = {"Name","Phone #","Email","Department","Salary"};
                 ef.updateColumnNames(columns1);
-                //cant test if this works without database setup and existing
                 
                 ArrayList<Employees> emp = db.getEmployees();
                 for(Employees x : emp)
@@ -103,37 +102,29 @@ public class FillData
         switch (title)
         {
             case "Employees":
-                ArrayList<Employees> empList = new ArrayList<>(); //change search function to get all that meet the condition? or keep as one?
-                for(Employees x : empList)
-                    {
-                        String[] info = {x.getPhone(),
-                                         x.getEmail(),
-                                         x.getDepartment(),
-                                         NumberFormat.getCurrencyInstance().format(x.getSalary())};
-                        sf.addRow(info);
-                    }
+                Employees emp = db.getEmployees(condition);
+                String[] info = {emp.getPhone(),
+                                 emp.getEmail(),
+                                 emp.getDepartment(),
+                                 NumberFormat.getCurrencyInstance().format(emp.getSalary())};
+                sf.addRow(info);
                 break;
             case "Inventory":
-                ArrayList<Inventory> invList = new ArrayList<>(); //add search here
-                for(Inventory x : invList)
-                {
-                    String[] info = {x.getModel(),
-                                     x.getMake(),
-                                     Double.toString(x.getStock()),
-                                     NumberFormat.getCurrencyInstance().format(x.getPrice())};
-                    sf.addRow(info);
-                }
+                Inventory inv = db.getInventory(condition);
+                String[] info2 = {inv.getModel(),
+                                 inv.getMake(),
+                                 Double.toString(inv.getStock()),
+                                 NumberFormat.getCurrencyInstance().format(inv.getPrice())};
+                sf.addRow(info2);
                 break;
             case "Sales":
-                ArrayList<Sales> slsList = new ArrayList<>(); //add search here
-                for(Sales x : slsList)
-                {
-                    String[] info = {x.getCode(),
-                                     x.getEmployeeName(),
-                                     x.getSaleDate(),
-                                     (x.isLease() ? "True" : "False")};
-                    sf.addRow(info);
-                }
+                Sales sls = db.getSales(condition);
+                String[] info3 = {sls.getCode(),
+                                 sls.getEmployeeName(),
+                                 sls.getSaleDate(),
+                                 (sls.isLease() ? "True" : "False")};
+                sf.addRow(info3);
+                break;
         }
     }
 }

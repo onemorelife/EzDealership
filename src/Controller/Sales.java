@@ -1,10 +1,21 @@
-
 package Controller;
 
 /**
- *
- * @author Badruddoza Khan
+ * This class handles everything for the Sales table.
+ * This class takes five values and arranges them onto 
+ *      the Sales table.
+ * code: This takes the inventory code to find what vehicle
+ *      the customer is trying to buy.
+ * transactionNum: This is to keep a record of who bought what
+ *      car when and who sold it to them, recorded as a string.
+ * employeeName: The full name of the employee who completed
+ *      this transaction taken as one string.
+ * saleDate: This takes the date as a string.
+ * lease: This is a boolean to see if the vehicle is going 
+ *      to be on a lease.
+ * 
  */
+
 public class Sales 
 {
     private String code; 
@@ -19,7 +30,7 @@ public class Sales
     }
     
     public Sales(String code, String transactionNum, String employeeName, 
-                     String saleDate, boolean lease)
+                 String saleDate, boolean lease)
     {
         this.code = code;
         this.transactionNum = transactionNum;
@@ -28,7 +39,7 @@ public class Sales
         this.lease = lease;
     }        
 
-    //Accessors 
+    //Accessors for the sales class
     public String getCode() {
         return code;
     }

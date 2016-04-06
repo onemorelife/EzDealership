@@ -14,8 +14,16 @@ import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
 /**
- *
- * @author azure
+ * This is the main class for this project.
+ * This tells the other classes when to be active
+ * It also sets up how you can change between 
+ *      said classes and how everything 
+ *      interacts with everything else.
+ * componentHidden: This sets the main window invisible
+ *      while the none main windows are in use, once the "Exit"
+ *      button is it, the program reopens the main window 
+ *      without closing the program.
+ * 
  */
 public class EzDealership {
 
@@ -28,9 +36,9 @@ public class EzDealership {
         tableNames.add("Employees");
         tableNames.add("Inventory");
         tableNames.add("Sales");
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+        /* Set the Nimbus look and feel
+         *<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
@@ -57,7 +65,7 @@ public class EzDealership {
         MainFrame mf = new MainFrame(ef, sf);
         mf.updateCbxTableList(tableNames);
         
-        //allows you to swap windows
+        //Allows you to swap windows without closing the program.
         sf.addComponentListener(new ComponentAdapter() 
         {
             public void componentHidden(ComponentEvent e) 
@@ -72,9 +80,8 @@ public class EzDealership {
             public void componentHidden(ComponentEvent e) 
             {
                 mf.setVisible(true);
-                //any data that needs to be pulled from table will be done here
+                //Any data that needs to be pulled from table will be done here
             }
         });
-    }
-    
+    }  
 }
