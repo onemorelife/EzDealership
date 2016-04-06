@@ -26,7 +26,7 @@ public class FillData
                 for(Employees x : emp)
                 {
                     String[] info = {x.getEmployeeName(),
-                                    // x.getPhone(),
+                                     x.getPhone(),
                                      x.getEmail(),
                                      x.getDepartment(),
                                      NumberFormat.getCurrencyInstance().format(x.getSalary())};
