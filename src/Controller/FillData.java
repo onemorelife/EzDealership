@@ -17,10 +17,9 @@ public class FillData
         String selected = mf.getSelected();
         switch (selected) {
             case "Employees":
-                ef.updateTitle("Employee");
+                ef.updateTitle("Employees");
                 String[] columns1 = {"Name","Phone #","Email","Department","Salary"};
                 ef.updateColumnNames(columns1);
-                
                 ArrayList<Employees> emp = db.getEmployees();
                 for(Employees x : emp)
                 {
@@ -42,7 +41,7 @@ public class FillData
                 {
                     String[] info = {x.getModel(),
                                      x.getMake(),
-                                     Double.toString(x.getStock()),
+                                     Integer.toString(x.getStock()),
                                      NumberFormat.getCurrencyInstance().format(x.getPrice()),
                                      x.getCode()};
                     ef.addRow(info);

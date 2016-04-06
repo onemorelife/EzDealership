@@ -80,7 +80,6 @@ public class EzDealership {
             public void componentHidden(ComponentEvent e) 
             {
                 mf.setVisible(true);
-                //Any data that needs to be pulled from table will be done here
             }
         });
     }  

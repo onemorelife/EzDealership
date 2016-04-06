@@ -21,7 +21,7 @@ public class PullData
             {
                 if(row != null) //row is null if it was empty
                 {
-                    Inventory object = new Inventory(row.get(0), row.get(1), Integer.parseInt(row.get(2)), Double.parseDouble(row.get(3)), row.get(4));
+                    Inventory object = new Inventory(row.get(0), row.get(1), Integer.parseInt(row.get(2)), toDouble(row.get(3)), row.get(4));
                     invNew.add(object);
                 }
             }
@@ -117,7 +117,7 @@ public class PullData
             {
                 if(row != null) //row is null if it was empty
                 {
-                Employees object = new Employees(row.get(0), row.get(1), row.get(2), row.get(3), Double.parseDouble(row.get(4)));
+                Employees object = new Employees(row.get(0), row.get(1), row.get(2), row.get(3), toDouble(row.get(4)));
                 empNew.add(object);
                 }
             }
@@ -157,5 +157,18 @@ public class PullData
                 }
             }
         }
+    }
+    
+    private static double toDouble(String convert)
+    {
+        String result = "";
+        for(char x : convert.toCharArray())
+        {
+            if((x >= '0' && x <= '9') || x == '.')
+            {
+                result += x;
+            }
+        }
+        return Double.parseDouble(result);
     }
 }
