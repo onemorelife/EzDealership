@@ -292,7 +292,7 @@ public class EditFrame extends javax.swing.JFrame {
             dtm.addRow(o);
         }
     }
-    /*
+    
     private boolean validateFieldLength()
     {
         boolean valid = true;
@@ -301,7 +301,21 @@ public class EditFrame extends javax.swing.JFrame {
         switch (valType)
         {
             case "Employees":
-                int[] empColumnsToValidate = {}
+                int[] empColumnsToValidate = {0,1,2,3};
+                for(int index = 0; index < tblInfo.getModel().getRowCount(); ++index)
+                {
+                    for(int column : empColumnsToValidate)
+                    {
+                        String test = ((String)tblInfo.getModel().getValueAt(index, column));
+                        if(test != null)
+                        {
+                            if(test.length() > 24)
+                            {
+                                
+                            }
+                        }
+                    }
+                }
                 break;
             case "Inventory":
                 break;
@@ -309,7 +323,7 @@ public class EditFrame extends javax.swing.JFrame {
                 break;
         }
         return valid;
-    }*/
+    }
     
     private boolean validateDataTypes()
     {
