@@ -6,6 +6,7 @@
 package View;
 
 import Controller.PullData;
+import Controller.Validator;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -117,7 +118,7 @@ public class EditFrame extends javax.swing.JFrame {
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         if(checkCells(true))
         {
-            if(validateDataTypes())
+            if(Validator.validate(this))
             {
                 PullData.updateDB(this);
                 this.setVisible(false);
@@ -131,17 +132,17 @@ public class EditFrame extends javax.swing.JFrame {
 
     private void tbnEditItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tbnEditItemStateChanged
         //retrieve current table data
-        Object[] columnNames = new Object[dtm.getColumnCount()];
-        for(int index = 0; index < dtm.getColumnCount(); ++index)
+        Object[] columnNames = new Object[tblInfo.getModel().getColumnCount()];
+        for(int index = 0; index < tblInfo.getModel().getColumnCount(); ++index)
         {
-            columnNames[index] = dtm.getColumnName(index);
+            columnNames[index] = tblInfo.getModel().getColumnName(index);
         }
-        Object[][] cellData = new Object[dtm.getRowCount()][dtm.getColumnCount()];
-        for(int row = 0; row < dtm.getRowCount(); ++row)
+        Object[][] cellData = new Object[tblInfo.getModel().getRowCount()][tblInfo.getModel().getColumnCount()];
+        for(int row = 0; row < tblInfo.getModel().getRowCount(); ++row)
         {
-            for(int column = 0; column < dtm.getColumnCount(); ++column)
+            for(int column = 0; column < tblInfo.getModel().getColumnCount(); ++column)
             {
-                cellData[row][column] = dtm.getValueAt(row, column);
+                cellData[row][column] = tblInfo.getModel().getValueAt(row, column);
             }
         }
         
@@ -242,6 +243,21 @@ public class EditFrame extends javax.swing.JFrame {
         }
     }
     
+    public int getRowCount()
+    {
+        return tblInfo.getModel().getRowCount();
+    }
+    
+    public Object getValueAt(int row, int column)
+    {
+        return tblInfo.getModel().getValueAt(row, column);
+    }
+    
+    public String getColumnName(int index)
+    {
+        return tblInfo.getModel().getColumnName(index);
+    }
+    
     private boolean checkCells(boolean ignoreEmptyRows)
     {
         if(ignoreEmptyRows)
@@ -291,159 +307,6 @@ public class EditFrame extends javax.swing.JFrame {
         {
             dtm.addRow(o);
         }
-    }
-    
-    private boolean validateFieldLength()
-    {
-        boolean valid = true;
-        String valType = lblTittle.getText(); 
-        
-        switch (valType)
-        {
-            case "Employees":
-                int[] empColumnsToValidate = {0,1,2,3};
-                for(int index = 0; index < tblInfo.getModel().getRowCount(); ++index)
-                {
-                    for(int column : empColumnsToValidate)
-                    {
-                        String test = ((String)tblInfo.getModel().getValueAt(index, column));
-                        if(test != null)
-                        {
-                            if(test.length() > 24)
-                            {
-                                
-                            }
-                        }
-                    }
-                }
-                break;
-            case "Inventory":
-                break;
-            case "Sales":
-                break;
-        }
-        return valid;
-    }
-    
-    private boolean validateDataTypes()
-    {
-        boolean valid = true;
-        String valType = lblTittle.getText();
-        switch (valType)
-        {
-            case "Employees":
-                int[] empColumnsToValidate = {2,4};
-                for(int index = 0; index < tblInfo.getModel().getRowCount(); ++index)
-                {
-                    for(int column : empColumnsToValidate)
-                    {
-                        String test = ((String)tblInfo.getModel().getValueAt(index, column));
-                        if(test != null)
-                        {
-                            for(char x : test.toCharArray())
-                            {
-                                if(x != '$' && x != ',' && x != '.' && (x < '0' || x > '9')) //if x is not one of the format charracters, or a number, display an error
-                                {
-                                    String message = "The value located in the ";
-                                    message += Integer.toString(index + 1);
-                                    switch ((index % 10) + 1)
-                                    {
-                                        case 1:
-                                            message += "st";
-                                            break;
-                                        case 2:
-                                            message += "nd";
-                                            break;
-                                        case 3:
-                                            message += "rd";
-                                            break;
-                                        default:
-                                            message += "th";
-                                            break;
-                                    }
-                                    message += " row, under the " + dtm.getColumnName(column) 
-                                            + " column can only contain a number.";
-                                    valid = false;
-                                    JOptionPane.showMessageDialog(this, message);
-                                }
-                            }
-                        }
-                    }
-                }
-                break;
-            case "Inventory":
-                int[] invColumnsToValidate = {2,3};
-                for(int index = 0; index < tblInfo.getModel().getRowCount(); ++index)
-                {
-                    for(int column : invColumnsToValidate)
-                    {
-                        String test = ((String)tblInfo.getModel().getValueAt(index, column));
-                        if(test != null)
-                        {
-                            for(char x : test.toCharArray())
-                            {
-                                if(x != '$' && x != ',' && x != '.' && (x < '0' || x > '9'))
-                                {
-                                    String message = "The value located in the ";
-                                    message += Integer.toString(index + 1);
-                                    switch ((index % 10) + 1)
-                                    {
-                                        case 1:
-                                            message += "st";
-                                            break;
-                                        case 2:
-                                            message += "nd";
-                                            break;
-                                        case 3:
-                                            message += "rd";
-                                            break;
-                                        default:
-                                            message += "th";
-                                            break;
-                                    }
-                                    message += " row, under the " + dtm.getColumnName(column) 
-                                            + " column can only contain a number.";
-                                    valid = false;
-                                    JOptionPane.showMessageDialog(this, message);
-                                }
-                            }
-                        }
-                    }
-                }
-                break;
-            case "Sales":
-                int slsColumnsToValidate = 4;
-                for(int index = 0; index < tblInfo.getModel().getRowCount(); ++index)
-                {
-                    String test = (String)tblInfo.getModel().getValueAt(index, slsColumnsToValidate);
-                    if(!test.equalsIgnoreCase("True") && !test.equalsIgnoreCase("False"))
-                    {
-                        String message = "The value located in the ";
-                        message += Integer.toString(index + 1);
-                        switch ((index % 10) + 1)
-                        {
-                            case 1:
-                                message += "st";
-                                break;
-                            case 2:
-                                message += "nd";
-                                break;
-                            case 3:
-                                message += "rd";
-                                break;
-                            default:
-                                message += "th";
-                                break;
-                        }
-                        message += " row, under the " + dtm.getColumnName(slsColumnsToValidate) 
-                                + " column can only contain True or False.";
-                        valid = false;
-                        JOptionPane.showMessageDialog(this, message);
-                    }
-                }
-                break;
-        }
-        return valid;
     }
     
     private DefaultTableModel dtm;
