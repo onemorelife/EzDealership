@@ -1,13 +1,27 @@
 package Controller;
-
+ 
 import View.EditFrame;
 import javax.swing.JOptionPane;
-
+ 
 public class Validator {
     public static boolean validate(EditFrame ef)
     {
         return validateDataTypes(ef) && validateDataTypes(ef);
     }
+	
+	public static boolean isNumber(String str)  
+	{  
+	  try  
+	  {  
+		double d = Double.parseDouble(str);  
+	  }  
+	  catch(NumberFormatException nfe)  
+	  {  
+		return false;  
+	  }  
+	  return true;  
+	}
+	
     
     private static boolean validateFieldLength(EditFrame ef)
     {
@@ -262,6 +276,79 @@ public class Validator {
         switch (valType)
         {
             case "Employees":
+				for(int row = 0; row < ef.getRowCount(); ++row)
+				{
+					// Column 0 must be 24 chars max
+					String value = (String)ef.getValueAt(row, 0);
+					if (value == null) continue;
+					if (value.length() > 24)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 1 of row " +
+							(row + 1) + " can only contain a string with 24 characters!");
+						valid = false;
+						break;
+					}
+					
+					// Column 1 must be 10 chars max
+					value = (String)ef.getValueAt(row, 1);
+					if (value == null) continue;
+					if (value.length() > 10)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 2 of row " +
+							(row + 1) + " can only contain a string with 10 characters!");
+						valid = false;
+						break;
+					}
+					
+					// Column 2 must be 20 chars max
+					value = (String)ef.getValueAt(row, 2);
+					if (value == null) continue;
+					if (value.length() > 20)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 3 of row " +
+							(row + 1) + " can only contain a string with 20 characters!");
+						valid = false;
+						break;
+					}
+					
+					// Column 3 must be 20 chars max
+					value = (String)ef.getValueAt(row, 3);
+					if (value == null) continue;
+					if (value.length() > 20)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 4 of row " +
+							(row + 1) + " can only contain a string with 20 characters!");
+						valid = false;
+						break;
+					}
+					
+					// Column 4 must be a number AND must disregard the $ symbol prefix
+					value = (String)ef.getValueAt(row, 4);
+					int i = 0;
+					for (int index = 0; index < value.length(); index++)
+					{
+						char c = value.charAt(index);
+						if (c == '$' && index != 0)
+						{
+							valid = false;
+							break;
+						}
+						
+						if (!Character.isDigit(c) && c != ',' && c != '.' && c != '$')
+						{
+							valid = false;
+							break;
+						}
+					}
+					if (!valid)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 5 of row " +
+							(row + 1) + " can only contain a number!");
+						break;
+					}
+				}
+				break;
+/*
                 int[] empColumnsToValidate = {1,4};
                 for(int index = 0; index < ef.getRowCount(); ++index)
                 {
@@ -301,7 +388,79 @@ public class Validator {
                     }
                 }
                 break;
+*/
             case "Inventory":
+				for(int row = 0; row < ef.getRowCount(); ++row)
+				{
+					// Column 0 must be 20 chars max
+					String value = (String)ef.getValueAt(row, 0);
+					if (value == null) continue;
+					if (value.length() > 20)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 1 of row " +
+							(row + 1) + " can only contain a string with 20 characters!");
+						valid = false;
+						break;
+					}
+					
+					// Column 1 must be 20 chars max
+					value = (String)ef.getValueAt(row, 1);
+					if (value == null) continue;
+					if (value.length() > 20)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 2 of row " +
+							(row + 1) + " can only contain a string with 20 characters!");
+						valid = false;
+						break;
+					}
+					
+					// Column 2 must be a number
+					value = (String)ef.getValueAt(row, 2);
+					if (!isNumber(value))
+					{
+						JOptionPane.showMessageDialog(ef, "Column 3 of row " +
+							(row + 1) + " can only contain a number!");
+						valid = false;
+						break;
+					}
+					
+					// Column 3 must be a money value
+					value = (String)ef.getValueAt(row, 3);
+					int i = 0;
+					for (int index = 0; index < value.length(); index++)
+					{
+						char c = value.charAt(index);
+						if (c == '$' && index != 0)
+						{
+							valid = false;
+							break;
+						}
+						
+						if (!Character.isDigit(c) && c != ',' && c != '.' && c != '$')
+						{
+							valid = false;
+							break;
+						}
+					}
+					if (!valid)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 4 of row " +
+							(row + 1) + " can only contain a number!");
+						break;
+					}
+										
+					// Column 4 must be 4 chars max
+					value = (String)ef.getValueAt(row, 4);
+					if (value.length() > 4)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 5 of row " +
+							(row + 1) + " can only contain a string with 4 characters!");
+						valid = false;
+						break;
+					}
+				}
+				break;
+/*
                 int[] invColumnsToValidate = {2,3};
                 for(int index = 0; index < ef.getRowCount(); ++index)
                 {
@@ -341,12 +500,68 @@ public class Validator {
                     }
                 }
                 break;
+*/
             case "Sales":
+				for(int row = 0; row < ef.getRowCount(); ++row)
+				{
+					// Column 0 must be 4 chars max
+					String value = (String)ef.getValueAt(row, 0);
+					if (value == null) continue;
+					if (value.length() > 4)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 1 of row " +
+							(row + 1) + " can only contain a string with 4 characters!");
+						valid = false;
+						break;
+					}
+					
+					// Column 1 must be a number
+					value = (String)ef.getValueAt(row, 1);
+					if (!isNumber(value))
+					{
+						JOptionPane.showMessageDialog(ef, "Column 2 of row " +
+							(row + 1) + " can only contain a number!");
+						valid = false;
+						break;
+					}
+					
+					// Column 2 must be 24 chars max
+					value = (String)ef.getValueAt(row, 2);
+					if (value.length() > 24)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 3 of row " +
+							(row + 1) + " can only contain a string with 24 characters!");
+						valid = false;
+						break;
+					}
+					
+					// Column 3 must be 8 chars max
+					value = (String)ef.getValueAt(row, 3);
+					if (value.length() > 8)
+					{
+						JOptionPane.showMessageDialog(ef, "Column 4 of row " +
+							(row + 1) + " can only contain a string with 8 characters!");
+						valid = false;
+						break;
+					}
+					
+					// Column 4 must be a boolean
+					value = (String)ef.getValueAt(row, 4);
+					if(!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false"))
+					{
+						JOptionPane.showMessageDialog(ef, "Column 5 of row " +
+							(row + 1) + " must be either True or False!");
+						valid = false;
+						break;
+					}	
+				}
+				break;
+/*
                 int slsColumnsToValidate = 4;
                 for(int index = 0; index < ef.getRowCount(); ++index)
                 {
-                    String test = (String)ef.getValueAt(index, slsColumnsToValidate);
-                    if(!test.equalsIgnoreCase("True") && !test.equalsIgnoreCase("False"))
+					String test = (String)ef.getValueAt(index, slsColumnsToValidate);
+                    if(!test.equalsIgnoreCase("true") || !test.equalsIgnoreCase("false"))
                     {
                         String message = "The value located in the ";
                         message += Integer.toString(index + 1);
@@ -372,6 +587,7 @@ public class Validator {
                     }
                 }
                 break;
+			*/
         }
         return valid;
     }

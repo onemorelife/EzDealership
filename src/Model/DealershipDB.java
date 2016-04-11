@@ -11,21 +11,23 @@ import java.sql.*;
  */
 public class DealershipDB 
 {
+    
     private Connection getConnection()
     {
         Connection connection = null;
+        String DBURL = "jdbc:derby:database/DealershipDB;";
         try
         {
             //Set the directory
-            String dbDirectory = "db";
-            System.setProperty("derby.system.home", dbDirectory);
+            //String dbDirectory = "db";
+            //System.setProperty("derby.system.home", dbDirectory);
 
             //Set the db url, username, and password
-            String url = "jdbc:derby:DealershipDB";
-            String username = "";
-            String password = "";
+            //String url = "jdbc:derby:database/DealershipDB;";
+            //String username = "";
+            //String password = "";
 
-            connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(DBURL);
 			return connection;
         }
         catch(SQLException e)
