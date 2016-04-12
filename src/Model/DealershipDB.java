@@ -1,14 +1,10 @@
-
 package Model;
 import Controller.Sales;
 import Controller.Inventory;
 import Controller.Employees;
 import java.util.*;
 import java.sql.*;
-/**
- *
- * @author Badruddoza Khan
- */
+
 public class DealershipDB 
 {
     
@@ -18,15 +14,6 @@ public class DealershipDB
         String DBURL = "jdbc:derby:database/DealershipDB;";
         try
         {
-            //Set the directory
-            //String dbDirectory = "db";
-            //System.setProperty("derby.system.home", dbDirectory);
-
-            //Set the db url, username, and password
-            //String url = "jdbc:derby:database/DealershipDB;";
-            //String username = "";
-            //String password = "";
-
             connection = DriverManager.getConnection(DBURL);
 			return connection;
         }

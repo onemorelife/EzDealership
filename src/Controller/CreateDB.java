@@ -25,7 +25,7 @@ public class CreateDB
     {
         Connection connection = null;
         String sql = "";
-		int[] result;
+	int[] result;
         String DBURL = "jdbc:derby:database/DealershipDB;create=true;";
         try
         {
